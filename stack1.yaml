@@ -3,16 +3,16 @@ services:
 
   sonarr:
     image: linuxserver/sonarr
-    container_name: sonarr1
+    container_name: sonarr
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Pacific/Auckland
       - UMASK_SET=022 #optional
     volumes:
-      - /path/to/data:/config
-      - /path/to/tvseries:/tv
-      - /path/to/downloadclient-downloads:/downloads
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/sonarr:/config
+      - /srv/dev-disk-by-label-Diskb/mainshare/media/TVShows:/tv
+      - /srv/dev-disk-by-label-Diskb/mainshare/download/complete:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Pacific/Auckland
       - UMASK_SET=022 #optional
     volumes:
       - /path/to/downloadclient-downloads:/downloads
@@ -37,7 +37,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Pacific/Auckland
       - AUTO_UPDATE=true #optional
       - RUN_OPTS=run options here #optional
 
