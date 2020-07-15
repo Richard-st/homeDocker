@@ -28,7 +28,7 @@ services:
     volumes:
       - /srv/dev-disk-by-label-Diskb/mainshare/config/sonarr:/config
       - /srv/dev-disk-by-label-Diskb/mainshare/media/TVShows:/tv
-      - /srv/dev-disk-by-label-Diskb/mainshare/download/complete:/downloads
+      - /srv/dev-disk-by-label-Diskb/mainshare/download:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
