@@ -10,7 +10,7 @@ services:
       - TZ=Europe/London
       - UMASK_SET=022 #optional
       - DELUGE_LOGLEVEL=error #optional
-    volumes:
+#    volumes:
 #      - /srv/dev-disk-by-label-Diskb/mainshare/config/deluge:/config
 #      - /srv/dev-disk-by-label-Diskb/mainshare/download:/downloads
     ports:
@@ -25,7 +25,7 @@ services:
       - PGID=100
       - TZ=Pacific/Auckland
       - UMASK_SET=022 #optional
-    volumes:
+#    volumes:
 #      - /srv/dev-disk-by-label-Diskb/mainshare/config/sonarr:/config
 #      - /srv/dev-disk-by-label-Diskb/mainshare/media/TVShows:/tv
 #      - /srv/dev-disk-by-label-Diskb/mainshare/download/complete:/downloads
@@ -41,7 +41,7 @@ services:
       - PGID=100
       - TZ=Pacific/Auckland
       - UMASK_SET=022 #optional
-    volumes:
+#    volumes:
 #      - /srv/dev-disk-by-label-Diskb/mainshare/config/radarr:/config
 #      - /srv/dev-disk-by-label-Diskb/mainshare/media/movies:/movies
 #      - /srv/dev-disk-by-label-Diskb/mainshare/download/complete:/downloads
@@ -58,6 +58,7 @@ services:
       - TZ=Pacific/Auckland
       - AUTO_UPDATE=true #optional
       - RUN_OPTS=run options here #optional
+#    volumes:
 #     - /srv/dev-disk-by-label-Diskb/mainshare/config/jackett:/config
 
     ports:
