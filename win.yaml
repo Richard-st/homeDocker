@@ -64,3 +64,16 @@ services:
     ports:
       - 9117:9117
     restart: unless-stopped
+  
+  nordvpn:
+    image: bubuntux/nordvpn
+    cap_add:
+      - NET_ADMIN               # Required
+      - SYS_MODULE              # Required for TECHNOLOGY=NordLynx
+    devices:
+      - /dev/net/tun            # Required
+    environment:                # Review https://github.com/bubuntux/nordvpn#environment-variables
+      - USER=user@email.com     # Required
+      - PASS='pas$word'         # Dont even try using this
+      - CONNECT=United_States
+      - TECHNOLOGY=NordLynx    
