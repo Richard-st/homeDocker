@@ -31,8 +31,8 @@ services:
     volumes:
       - /srv/dev-disk-by-label-Diskb/mainshare/config/deluge:/config
       - /srv/dev-disk-by-label-Diskb/mainshare/download:/downloads
-    ports:
-      - 8112:8112
+  #  ports:
+  #    - 8112:8112
     restart: unless-stopped
 
   sonarr:
