@@ -43,10 +43,8 @@ services:
     tmpfs:                                                                                   
       - /run                                                                                 
       - /tmp                                                                                 
-      - /var/cache/nginx                                                                     
+      - /var/cache/nginx                                                                    
     ports:                                                                                   
-      - 80:80                                                                                
-      - 443:443  
       - 8112:8112    
 
                                                                           
