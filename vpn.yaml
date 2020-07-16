@@ -13,8 +13,7 @@ services:
       - CONNECT=United_States
       - TECHNOLOGY=NordLynx
 
-
-   torrent:
+  torrent:
     image: linuxserver/deluge
     container_name: deluge
     network_mode: service:vpn
