@@ -1,6 +1,7 @@
 version: "2.1"
 services:
   vpn:
+    container_name: nordvpn
     image: bubuntux/nordvpn
     cap_add:
       - NET_ADMIN               # Required
@@ -8,18 +9,18 @@ services:
     devices:
       - /dev/net/tun            # Required
     environment:                # Review https://github.com/bubuntux/nordvpn#environment-variables
-      - USER=user@email.com     # Required
-      - PASS='pas$word'         # Required
+      - USER=     # Required
+      - PASS=         # Required
       - CONNECT=United_States
       - TECHNOLOGY=NordLynx
 
   torrent:
+    container_name: deluge
     image: linuxserver/deluge
     container_name: deluge
     network_mode: service:vpn
     depends_on:
       - vpn
-
     environment:
       - PUID=1000
       - PGID=100
@@ -35,6 +36,7 @@ services:
 
 
   web:
+    container_name: deluge_proxy
     image: dperson/nginx        # https://github.com/dperson/nginx
     links:                                                                                   
       - vpn:torrent                                                                          
@@ -45,9 +47,10 @@ services:
       - /tmp                                                                                 
       - /var/cache/nginx                                                                    
     ports:                                                                                   
-      - 8112:8112    
+      - 8113:80                                                                                
+    
 
                                                                           
-    command: -w "http://torrent:8080/;/" 
+    command: -w "http://torrent:8112/;/" 
 
-# The torrent service would be available at http://localhost/ 
+# The torrent service would be available at http://localhost:8113/ 
