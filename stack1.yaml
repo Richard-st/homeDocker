@@ -3,6 +3,7 @@ services:
 
   vpn:
     image: bubuntux/nordvpn
+    network_mode: bridge
     container_name: vpn
     cap_add:
       - NET_ADMIN               # Required
@@ -13,7 +14,10 @@ services:
       - USER=user@email.com     # Required
       - PASS='pas$word'         # Dont even try using this
       - CONNECT=United_States
-      - TECHNOLOGY=NordLynx    
+      - TECHNOLOGY=NordLynx 
+      - NETWORK=192.168.2.0/24
+    ports:
+      - 8112:8112   
 
   deluge:
     image: linuxserver/deluge
@@ -31,8 +35,8 @@ services:
     volumes:
       - /srv/dev-disk-by-label-Diskb/mainshare/config/deluge:/config
       - /srv/dev-disk-by-label-Diskb/mainshare/download:/downloads
-    ports:
-      - 8112:8112
+    #ports:
+    #  - 8112:8112
     restart: unless-stopped
 
   sonarr:
