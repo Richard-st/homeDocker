@@ -2,7 +2,8 @@ version: "2.1"
 services:
 
   vpn:
-    image: bubuntux/vpn
+    image: bubuntux/nordvpn
+    container_name: vpn
     cap_add:
       - NET_ADMIN               # Required
       - SYS_MODULE              # Required for TECHNOLOGY=NordLynx

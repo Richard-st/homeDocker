@@ -22,7 +22,7 @@ services:
     network_mode: service:vpn
     depends_on:
       - vpn
-      environment:
+    environment:
       - PUID=1000
       - PGID=100
       - TZ=Europe/London
