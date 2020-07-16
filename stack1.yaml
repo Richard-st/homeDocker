@@ -5,7 +5,7 @@ services:
 
   deluge:
     image: linuxserver/deluge
-    container_name: deluge
+    container_name: non_vpn_deluge
     network_mode: host
 
     environment:
@@ -18,7 +18,7 @@ services:
       - /srv/dev-disk-by-label-Diskb/mainshare/config/deluge:/config
       - /srv/dev-disk-by-label-Diskb/mainshare/download:/downloads
     ports:
-      - 8112:8112
+      - 8114:8112
     restart: unless-stopped
 
   sonarr:

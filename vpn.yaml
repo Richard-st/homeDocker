@@ -17,7 +17,6 @@ services:
   torrent:
     container_name: deluge
     image: linuxserver/deluge
-    container_name: deluge
     network_mode: service:vpn
     depends_on:
       - vpn
