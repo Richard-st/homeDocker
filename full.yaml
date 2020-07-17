@@ -23,7 +23,7 @@ services:
     environment:
       - PUID=1000
       - PGID=100
-      - TZ=Europe/London
+      - TZ=TZ=Pacific/Auckland
       - UMASK_SET=022 #optional
       - DELUGE_LOGLEVEL=error #optional
     volumes:
