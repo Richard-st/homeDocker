@@ -47,6 +47,6 @@ services:
       - 7447:7447 
     volumes:
       - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video:/var/lib/unifi-video
-      - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video/videos:/var/lib/unifi-video/videos
+      - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video/data/videos:/var/lib/unifi-video/data/videos
     tmpfs:                                                                                   
       - /var/cache/unifi-video                                                                               
