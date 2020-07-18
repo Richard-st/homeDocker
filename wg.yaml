@@ -1,0 +1,13 @@
+version: "2.1"
+services:
+  webgrabplus:
+    image: linuxserver/webgrabplus
+    container_name: webgrabplus
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Pacific/Auckland
+    volumes:
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/webgrabplus:/config
+      - /srv/dev-disk-by-label-Diskb/mainshare/webgrabplus:/data
+    restart: unless-stopped
