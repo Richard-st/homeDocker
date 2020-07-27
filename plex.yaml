@@ -11,7 +11,7 @@ services:
       - UMASK_SET=022 #optional
       - PLEX_CLAIM= #optional
     volumes:
-      - /path/to/library:/config
-      - /path/to/tvseries:/tv
-      - /path/to/movies:/movies
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/plex:/config
+      - /srv/dev-disk-by-label-Diskb/mainshare/media/movies:/movies
+      - /srv/dev-disk-by-label-Diskb/mainshare/media/TVShows:/tv
     restart: unless-stopped
