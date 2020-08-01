@@ -10,7 +10,7 @@ services:
       - /dev/net/tun            # Required
     environment:                # Review https://github.com/bubuntux/nordvpn#environment-variables
       - USER=     # Required
-      - PASS=         # Required
+      - PASS=        # Required
       - CONNECT=United_States
       - TECHNOLOGY=NordLynx
 
@@ -95,11 +95,10 @@ services:
       - TZ=Pacific/Auckland
       - AUTO_UPDATE=true #optional
       - RUN_OPTS=run options here #optional
-    volumes:
-      - /srv/dev-disk-by-label-Diskb/mainshare/config/jackett:/config
-
     ports:
       - 9117:9117
+    volumes:
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/jackett:/config
     restart: unless-stopped
 
   webgrabplus:

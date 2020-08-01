@@ -13,14 +13,27 @@ services:
     ports:
       - 3478:3478/udp
       #- 10001:10001/udp
-      - 8080:8080
+      # - 8080:8080     --used by traefic
       - 8443:8443
-      - 1900:1900/udp #optional
+      #- 1900:1900/udp #optional
       - 8843:8843 #optional
       - 8880:8880 #optional
       - 6789:6789 #optional
       - 5514:5514 #optional
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.unifi-secure.tls=true
+      - traefik.http.routers.unifi-secure.rule=Host(`unifi.local`)
+      - traefik.http.services.unifi.loadbalancer.server.port=8443
+      - traefik.http.routers.unifi-secure.entrypoints=websecure
+      
+      - traefik.http.middlewares.my-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.my-redirect.redirectscheme.permanent=true
+      - traefik.http.routers.unifi-secure.middlewares=my-redirect
+       
+      - traefik.http.services.unifi.loadbalancer.server.scheme=https    
+       
 
   unifi-video:
     image: pducharme/unifi-video-controller
@@ -45,8 +58,12 @@ services:
       - 7445:7445 
       - 7446:7446 
       - 7447:7447 
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.unifi-video.rule=Host(`video.local`)
+      - traefik.http.services.unifi-video.loadbalancer.server.port=7080
     volumes:
       - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video:/var/lib/unifi-video
       - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video/data/videos:/var/lib/unifi-video/data/videos
     tmpfs:                                                                                   
-      - /var/cache/unifi-video                                                                               
+      - /var/cache/unifi-video   
