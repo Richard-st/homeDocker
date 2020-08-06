@@ -12,13 +12,16 @@ services:
       - --log.level=DEBUG
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
+      - --providers.file.filename=/config/dynamic_conf.yaml
+      - --providers.file.watch=true
       - --serversTransport.insecureSkipVerify=true
       - --entryPoints.web.address=:80 
       - --entryPoints.websecure.address=:443
     ports:
       - "80:80"
-      - "8080:8080"
+      - "8081:8080"
       - 443:443
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/traefik:/config
     restart: unless-stopped

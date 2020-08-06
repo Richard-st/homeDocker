@@ -1,4 +1,4 @@
-version: "2.1"
+version: "3.0"
 services:
   vpn:
     container_name: nordvpn
@@ -9,8 +9,8 @@ services:
     devices:
       - /dev/net/tun            # Required
     environment:                # Review https://github.com/bubuntux/nordvpn#environment-variables
-      - USER=richard.stanners@gmail.com     # Required
-      - PASS=Nordvpn673RAS..-        # Required
+      - USER=     # Required
+      - PASS=        # Required
       - CONNECT=United_States
       - TECHNOLOGY=NordLynx
 

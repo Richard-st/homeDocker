@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+  torrent:
+    container_name: deluge
+    image: linuxserver/deluge
+    network_mode: service:vpn
+    depends_on:
+      - vpn
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=TZ=Pacific/Auckland
+      - UMASK_SET=022 #optional
+      - DELUGE_LOGLEVEL=error #optional
+    volumes:
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/deluge:/config
+      - /srv/dev-disk-by-label-Diskb/mainshare/download:/downloads
+    ports:
+      - 8112:8112
+    restart: unless-stopped

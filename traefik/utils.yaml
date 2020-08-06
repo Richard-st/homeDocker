@@ -13,3 +13,14 @@ services:
       - TOKEN=
       - SUBDOMAINS=stanners.duckdns.org
     restart: unless-stopped
+
+  own_cloud:
+    image: owncloud/server
+    container_name: owncloud
+    environment:
+      - PUID=1000 #optional
+      - PGID=1000 #optional
+    restart: unless-stopped
+    ports:
+      - 8090:80
+      
