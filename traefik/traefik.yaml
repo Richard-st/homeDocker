@@ -15,10 +15,13 @@ services:
       - --serversTransport.insecureSkipVerify=true
       - --entryPoints.web.address=:80 
       - --entryPoints.websecure.address=:443
+      - --providers.file.filename=/etc/traefik/config/dynamic.yml
     ports:
       - "80:80"
       - "8081:8080"
       - 443:443
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/srv/dev-disk-by-label-Diskb/mainshare/config/traefik:/etc/traefik"
+
     restart: unless-stopped

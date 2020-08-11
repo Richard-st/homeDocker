@@ -1,24 +1,10 @@
 version: "2.1"
 services:
-  duckdns:
-    image: linuxserver/duckdns
-    container_name: duckdns
-    environment:
-      - PUID=1000 #optional
-      - PGID=1000 #optional
-      - TZ=Europe/London
-      - SUBDOMAINS=subdomain1,subdomain2
-      - TOKEN=token
-      - LOG_FILE=false #optional
-      - TOKEN=
-      - SUBDOMAINS=stanners.duckdns.org
-    restart: unless-stopped
-
   filebrowser:
     image:  filebrowser/filebrowser
     container_name: filebrowser
-    #ports:
-    #  - 80:80
+    ports:
+      - 80:80
     environment:
       - PUID=1000 #optional
       - PGID=100 #optional
@@ -27,9 +13,5 @@ services:
       - /srv/dev-disk-by-label-Diskb/mainshare:/srv
       - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/database.db:/database.db
       - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/.filebrowser.json:/.filebrowser.json
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.files.rule=Host(`files.local`)
     restart: unless-stopped
-
 

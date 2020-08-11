@@ -1,0 +1,20 @@
+version: "2.1"
+services:
+
+  nextcloud:
+    image: ownyourbits/nextcloudpi
+    container_name: nextcloudpi
+
+    environment:
+      - PUID=100 #optional
+      - PGID=1000 #optional
+    ports:
+      - 8090:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.own_cloud.rule=Host(`owncloud.local`)
+      - traefik.http.services.own_cloud.loadbalancer.server.port=8090
+    #volumes:
+    #  - /srv/dev-disk-by-label-Diskb/mainshare/config/owncloud:/var/www/html/config
+    #  - /srv/dev-disk-by-label-Diskb/mainshare/owncloud:/var/www/html/data
+    restart: unless-stopped
