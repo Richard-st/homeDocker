@@ -1,4 +1,4 @@
-version: "2.1"
+version: "2"
 services:
   reverse-proxy:
     image: traefik
@@ -9,28 +9,37 @@ services:
       - TZ=Pacific/Auckland
     command:
       - --api.insecure=true
-      - --log.level=DEBUG
+      - --log.level=ERROR
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
       - --serversTransport.insecureSkipVerify=true
       - --entryPoints.web.address=:80 
       - --entryPoints.websecure.address=:443
       - --providers.file.filename=/etc/traefik/config/dynamic.yml
+      - --certificatesresolvers.myresolver.acme.email=admin@stanners.co.nz
+      - --certificatesresolvers.myresolver.acme.storage=/etc/traefik/acme.json
+      #- --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+
     ports:
       - "80:80"
       - "8081:8080"
       - 443:443
+    networks:
+      - web
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/srv/dev-disk-by-label-Diskb/mainshare/config/traefik:/etc/traefik"
-
+      - "/srv/dev-disk-by-label-Diskb/mainshare/config/traefik/acme.json:/acme.json"
     restart: unless-stopped
 
   filebrowser:
     image:  filebrowser/filebrowser
     container_name: filebrowser
-    #ports:
-    #  - 80:80
+    ports:
+      - 90:80
+    networks:
+      - web
     environment:
       - PUID=1000 #optional
       - PGID=100 #optional
@@ -39,4 +48,10 @@ services:
       - /srv/dev-disk-by-label-Diskb/mainshare:/srv
       - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/database.db:/database.db
       - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/.filebrowser.json:/.filebrowser.json
+    #labels:
+    #  - traefik.enable=true
     restart: unless-stopped
+
+networks:
+  web:
+    external: false

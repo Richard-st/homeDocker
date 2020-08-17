@@ -1,0 +1,45 @@
+## Dynamic configuration
+
+
+        
+http:
+  routers:
+    files_router:
+      service: files
+      rule: Host(`files.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "user-auth"
+        
+    traefik_router:
+      service: traefik
+      rule: Host(`traefik.stanners.co.nz`) && Path(`/dashboard`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "user-auth"
+      middlewares:
+        - "http-redirect"
+        
+  services:
+    traefik:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.64:8081/"    
+
+    files:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.64:90/"     
+
+  middlewares:
+    user-auth:
+      basicAuth:
+        users:
+          - "dad:$apr1$iNlOEe9B$V9/eWLMUXXn3NJbk32yq3/"
+
+    http-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
