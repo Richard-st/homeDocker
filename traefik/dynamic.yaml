@@ -1,0 +1,106 @@
+## Dynamic configuration
+http:
+  routers:
+    omv_router:
+      service: omv
+      rule: "Host(`omv.local`)"
+      
+    traefik_router:
+      service: traefik
+      middlewares:
+        - "user-auth"
+      rule: "Host(`traefik.stanners.co.nz`)"
+      
+    unifi1_router:
+      service: unifi1
+      rule: "Host(`unifi1.local`)"
+      tls: {}
+      entryPoints:
+        - "websecure"
+      middlewares:
+        - "http-redirect"
+      
+    portainer_router:
+      service: portainer
+      rule: "Host(`portainer.local`)"
+      
+    ext_portainer_router:
+      service: portainer
+      rule: "Host(`portainer.stanners.co.nz`)"
+      
+    ext_sonarr_router:
+      service: sonarr_prod
+      rule: "Host(`sonarr.stanners.co.nz`)"
+      middlewares:
+        - "user-auth"
+
+    local_sonarr_router:
+      service: sonarr_prod
+      rule: "Host(`sonarr.local`)"
+
+    ext_video_router:
+      service: portainer
+      rule: "Host(`video.stanners.co.nz`)"
+
+    ext_files_router:
+      service: filebrowser-utils@docker
+      rule: "Host(`files.stanners.co.nz`)"
+      tls: {}
+      entryPoints:
+        - "websecure"
+      middlewares:
+        - "http-redirect"
+
+    ext_unifi_router:
+      service: unifi1
+      rule: "Host(`unifi.stanners.co.nz`)"
+      tls: {}
+      entryPoints:
+        - "websecure"
+      middlewares:
+        - "http-redirect"
+        
+  services:
+    omv:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.64:3000/"
+          
+    traefik:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.64:8081/"       
+          
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.64:9000/"   
+
+    sonarr_prod:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:8989/"
+          
+    sonarr:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.2.64:8989/"           
+          
+    unifi1:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.2.40:8443" 
+          
+  middlewares:
+    user-auth:
+      basicAuth:
+        users:
+          - "dad:$apr1$iNlOEe9B$V9/eWLMUXXn3NJbk32yq3/"
+          
+    http-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+        
+        
+        

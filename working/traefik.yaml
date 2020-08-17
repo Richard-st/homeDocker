@@ -12,16 +12,31 @@ services:
       - --log.level=DEBUG
       - --providers.docker=true
       - --providers.docker.exposedByDefault=false
-      - --providers.file.filename=/config/dynamic_conf.yaml
-      - --providers.file.watch=true
       - --serversTransport.insecureSkipVerify=true
       - --entryPoints.web.address=:80 
       - --entryPoints.websecure.address=:443
+      - --providers.file.filename=/etc/traefik/config/dynamic.yml
     ports:
       - "80:80"
       - "8081:8080"
       - 443:443
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - /srv/dev-disk-by-label-Diskb/mainshare/config/traefik:/config
+      - "/srv/dev-disk-by-label-Diskb/mainshare/config/traefik:/etc/traefik"
+
+    restart: unless-stopped
+
+  filebrowser:
+    image:  filebrowser/filebrowser
+    container_name: filebrowser
+    #ports:
+    #  - 80:80
+    environment:
+      - PUID=1000 #optional
+      - PGID=100 #optional
+      - TZ=Pacific/Auckland
+    volumes:
+      - /srv/dev-disk-by-label-Diskb/mainshare:/srv
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/database.db:/database.db
+      - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/.filebrowser.json:/.filebrowser.json
     restart: unless-stopped
