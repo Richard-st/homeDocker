@@ -4,34 +4,61 @@
         
 http:
   routers:
-    files_router:
-      service: files
+    files_dev_router:
+      service: files_dev
       rule: Host(`files.stanners.co.nz`)
       tls:
         certResolver: myresolver
       middlewares:
         - "user-auth"
         
-    traefik_router:
-      service: traefik
+    traefik_dev_router:
+      service: traefik_dev
       rule: Host(`traefik.stanners.co.nz`) && Path(`/dashboard`)
       tls:
         certResolver: myresolver
       middlewares:
         - "user-auth"
-      middlewares:
         - "http-redirect"
-        
+
+    sonarr_prod_router:
+      service: sonarr_prod
+      rule: Host(`sonarr.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "user-auth"
+        - "http-redirect"
+
+    video_dev_router:
+      service: video_dev
+      rule: Host(`video.dev.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+            - "http-redirect"
+
   services:
-    traefik:
+    traefik_dev:
       loadBalancer:
         servers:
           - url: "http://192.168.2.64:8081/"    
 
-    files:
+    files_dev:
       loadBalancer:
         servers:
           - url: "http://192.168.2.64:90/"     
+
+    sonarr_prod:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:8989/"  
+          
+    video_dev:
+      loadBalancer:
+        servers:
+        #  - url: "http://192.168.2.64:7080/"  
+          - url: "https://192.168.2.64:7443/" 
 
   middlewares:
     user-auth:

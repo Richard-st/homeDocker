@@ -1,5 +1,9 @@
 version: "2"
 services:
+
+  #########################
+  # Traefik Reverse Proxy #
+  #########################
   reverse-proxy:
     image: traefik
     container_name: traefik
@@ -20,7 +24,6 @@ services:
       - --certificatesresolvers.myresolver.acme.storage=/etc/traefik/acme.json
       - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
-
     ports:
       - "80:80"
       - "8081:8080"
@@ -33,6 +36,9 @@ services:
       - "/srv/dev-disk-by-label-Diskb/mainshare/config/traefik/acme.json:/acme.json"
     restart: unless-stopped
 
+  #########################
+  # File Browser          #
+  #########################
   filebrowser:
     image:  filebrowser/filebrowser
     container_name: filebrowser
@@ -43,49 +49,30 @@ services:
     environment:
       - PUID=1000 #optional
       - PGID=100 #optional
-      - TZ=Pacific/Auckland
+      - TZ=${TZ}
     volumes:
       - /srv/dev-disk-by-label-Diskb/mainshare:/srv
       - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/database.db:/database.db
       - /srv/dev-disk-by-label-Diskb/mainshare/config/filebrowser/.filebrowser.json:/.filebrowser.json
- 
     restart: unless-stopped
 
-#############################################################
-# Unifi Video
-#############################################################
-  unifi-video:
-    image: pducharme/unifi-video-controller
-    container_name: unifi-video
+  #########################
+  # Heimdall App Manager  #
+  #########################
+
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
     environment:
       - PUID=1000
       - PGID=1000
-      - MEM_LIMIT=1024M #optional
-      - CREATE_TMPFS=no
-      - DEBUG=1 
-      - TZ=Pacific/Auckland
-    cap_add:
-      - DAC_READ_SEARCH   
-    ports:      
-      - 10001:10001 
-      - 1935:1935 
-      - 6666:6666 
-      - 7080:7080 
-      - 7442:7442 
-      - 7443:7443 
-      - 7444:7444 
-      - 7445:7445 
-      - 7446:7446 
-      - 7447:7447 
-    #labels:
-    #  - traefik.enable=true
-    #  - traefik.http.routers.unifi-video.rule=Host(`video.local`)
-    #  - traefik.http.services.unifi-video.loadbalancer.server.port=7080
+      - TZ=${TZ}
     volumes:
-      - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video:/var/lib/unifi-video
-      - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video/data/videos:/var/lib/unifi-video/data/videos
-    tmpfs:                                                                                   
-      - /var/cache/unifi-video   
+      - /path/to/appdata/config:/config
+    ports:
+      - 8181:80
+    #  - 443:443
+    restart: unless-stopped
 
 networks:
   web:
