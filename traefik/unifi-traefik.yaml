@@ -35,35 +35,35 @@ services:
       - traefik.http.services.unifi.loadbalancer.server.scheme=https    
        
 
-  unifi-video:
-    image: pducharme/unifi-video-controller
-    container_name: unifi-video
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - MEM_LIMIT=1024M #optional
-      - CREATE_TMPFS=no
-      - DEBUG=1 
-      - TZ=Pacific/Auckland
-    cap_add:
-      - DAC_READ_SEARCH   
-    ports:      
-      - 10001:10001 
-      - 1935:1935 
-      - 6666:6666 
-      - 7080:7080 
-      - 7442:7442 
-      - 7443:7443 
-      - 7444:7444 
-      - 7445:7445 
-      - 7446:7446 
-      - 7447:7447 
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.unifi-video.rule=Host(`video.local`)
-      - traefik.http.services.unifi-video.loadbalancer.server.port=7080
-    volumes:
-      - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video:/var/lib/unifi-video
-      - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video/data/videos:/var/lib/unifi-video/data/videos
-    tmpfs:                                                                                   
-      - /var/cache/unifi-video   
+    unifi-video:
+      image: pducharme/unifi-video-controller
+      container_name: unifi-video
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - MEM_LIMIT=1024M #optional
+        - CREATE_TMPFS=no
+        - DEBUG=1 
+        - TZ=Pacific/Auckland
+      cap_add:
+        - DAC_READ_SEARCH   
+      ports:      
+        - 10001:10001 
+        - 1935:1935 
+        - 6666:6666 
+        - 7080:7080 
+        - 7442:7442 
+        - 7443:7443 
+        - 7444:7444 
+        - 7445:7445 
+        - 7446:7446 
+        - 7447:7447 
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.unifi-video.rule=Host(`video.local`)
+        - traefik.http.services.unifi-video.loadbalancer.server.port=7080
+      volumes:
+        - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video:/var/lib/unifi-video
+        - /srv/dev-disk-by-label-Diskb/mainshare/unifi-video/data/videos:/var/lib/unifi-video/data/videos
+      tmpfs:                                                                                   
+        - /var/cache/unifi-video   

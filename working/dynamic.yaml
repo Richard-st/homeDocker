@@ -1,72 +1,226 @@
 ## Dynamic configuration
 
 
-        
+
 http:
   routers:
-    files_dev_router:
-      service: files_dev
-      rule: Host(`files.stanners.co.nz`)
-      tls:
-        certResolver: myresolver
-      middlewares:
-        - "user-auth"
-        
-    traefik_dev_router:
-      service: traefik_dev
-      rule: Host(`traefik.stanners.co.nz`) && Path(`/dashboard`)
-      tls:
-        certResolver: myresolver
-      middlewares:
-        - "user-auth"
-        - "http-redirect"
-
-    sonarr_prod_router:
-      service: sonarr_prod
+    sonarr_external_router:
+      service: sonarr
       rule: Host(`sonarr.stanners.co.nz`)
       tls:
         certResolver: myresolver
       middlewares:
-        - "user-auth"
         - "http-redirect"
+        - "authelia"
+        
+    sonarr_local_router:
+      service: sonarr
+      rule: Host(`sonarr.local`)
 
-    video_dev_router:
-      service: video_dev
-      rule: Host(`video.dev.stanners.co.nz`)
+    radarr_external_router:
+      service: radarr
+      rule: Host(`radarr.stanners.co.nz`)
       tls:
         certResolver: myresolver
       middlewares:
-            - "http-redirect"
+        - "http-redirect"
+        - "authelia"
+        
+    radarr_local_router:
+      service: radarr
+      rule: Host(`radarr.local`)
+
+    jackett_external_router:
+      service: jackett
+      rule: Host(`jackett.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    jackett_local_router:
+      service: jackett
+      rule: Host(`jackett.local`)
+      
+    deluge_external_router:
+      service: deluge
+      rule: Host(`deluge.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    deluge_local_router:
+      service: deluge
+      rule: Host(`deluge.local`)
+      
+    heimdall_external_router:
+      service: heimdall
+      rule: Host(`heimdall.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    heimdall_local_router:
+      service: heimdall
+      rule: Host(`stanners.local`)
+
+
+    portainer_external_router:
+      service: portainer
+      rule: Host(`portainer.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    portainer_local_router:
+      service: portainer
+      rule: Host(`portainer.local`)
+
+    logs_external_router:
+      service: logs
+      rule: Host(`logs.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    logs_local_router:
+      service: logs
+      rule: Host(`logs.local`)
+
+    tautulli_external_router:
+      service: tautulli
+      rule: Host(`tautulli.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    tautulli_local_router:
+      service: tautulli
+      rule: Host(`tautulli.local`)
+
+    omv_external_router:
+      service: omv
+      rule: Host(`omv.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    omv_local_router:
+      service: omv
+      rule: Host(`omv.local`)
+
+    traefik_external_router:
+      service: traefik
+      rule: Host(`traefik.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    traefik_local_router:
+      service: traefik
+      rule: Host(`traefik.local`)      
+
+    files_external_router:
+      service: files
+      rule: Host(`files.stanners.co.nz`)
+      tls:
+        certResolver: myresolver
+      middlewares:
+        - "http-redirect"
+        - "authelia"
+        
+    files_local_router:
+      service: files
+      rule: Host(`files.local`)  
 
   services:
-    traefik_dev:
+    sonarr:
       loadBalancer:
         servers:
-          - url: "http://192.168.2.64:8081/"    
-
-    files_dev:
+          - url: "http://192.168.1.64:8989/" 
+ 
+    radarr:
       loadBalancer:
         servers:
-          - url: "http://192.168.2.64:90/"     
-
-    sonarr_prod:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.1.64:8989/"  
+          - url: "http://192.168.1.64:7878/"
           
-    video_dev:
+    deluge:
       loadBalancer:
         servers:
-        #  - url: "http://192.168.2.64:7080/"  
-          - url: "https://192.168.2.64:7443/" 
-
+          - url: "http://192.168.1.64:8113/"
+ 
+    jackett:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:9117/"
+          
+    heimdall:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:8181/" 
+   
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:9000/" 
+   
+    logs:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:9999/" 
+          
+    tautulli:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:8182/" 
+    omv:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:3000/" 
+          
+    traefik:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:8081/" 
+          
+    files:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.64:90/" 
+                    
   middlewares:
     user-auth:
       basicAuth:
         users:
-          - "dad:$apr1$iNlOEe9B$V9/eWLMUXXn3NJbk32yq3/"
-
+          - "user:hashpw"
+          
     http-redirect:
       redirectScheme:
         scheme: https
         permanent: true
+        
+    authelia:
+      forwardAuth:
+        address: "http://authelia:9091/api/verify?rd=https://authelia.stanners.co.nz/"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - "Remote-User"
+          - "Remote-Groups"
+      #      - 'traefik.http.middlewares.authelia.forwardauth.address=http://authelia:9091/api/verify?rd=https://authelia.stanners.co.nz/'
+      #- 'traefik.http.middlewares.authelia.forwardauth.trustForwardHeader=true'
+      #- 'traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User, Remote-Groups'

@@ -95,7 +95,7 @@ http:
     user-auth:
       basicAuth:
         users:
-          - "dad:$apr1$iNlOEe9B$V9/eWLMUXXn3NJbk32yq3/"
+          - "user:passhash"
           
     http-redirect:
       redirectScheme:
